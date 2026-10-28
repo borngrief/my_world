@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday My Love! ❤️ | Forever & Always</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- GSAP Animation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            roseGold: '#B76E79',
+            blushPink: '#FFD1DC',
+            romanticRed: '#E63946',
+            deepPurple: '#2B0938',
+            softRose: '#FFF0F5',
+          },
+          fontFamily: {
+            cursive: ['Dancing Script', 'cursive'],
+            script: ['Great Vibes', 'cursive'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Premium Styling & Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FFE5EC;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #F472B6;
+      border-radius: 10px;
+    }
+
+    body {
+      background: radial-gradient(circle at top right, #2b0938 0%, #170724 40%, #0d0216 100%);
+      color: #F8FAFC;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Glassmorphism Card Style */
+    .glass-box {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 182, 193, 0.25);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(255, 192, 203, 0.1);
+    }
+
+    .glass-light {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      color: #1E293B;
+    }
+
+    /* Floating Heart Particles Canvas */
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Pulse Glow Animations */
+    @keyframes subtleGlow {
+      0%, 100% { filter: drop-shadow(0 0 15px rgba(244, 114, 182, 0.6)); }
+      50% { filter: drop-shadow(0 0 30px rgba(225, 29, 72, 0.9)); }
+    }
+    .glow-heart {
+      animation: subtleGlow 2.5s infinite ease-in-out;
+    }
+
+    /* Polaroid Framing in Wall */
+    .polaroid-card {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .polaroid-card:hover {
+      transform: translateY(-8px) scale(1.03) rotate(1deg);
+      box-shadow: 0 15px 30px rgba(244, 114, 182, 0.35);
+    }
+  </style>
+</head>
+<body class="relative flex flex-col justify-between items-center min-h-screen p-3 sm:p-6">
+
+  <!-- Background Particle Canvas -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- Romantic Ambient Audio Source -->
+  <audio id="bgMusic" loop src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112199.mp3"></audio>
+
+  <!-- Floating Audio Player Controls Button -->
+  <button id="musicBtn" onclick="toggleAudio()" class="fixed top-4 right-4 z-50 bg-white/10 hover:bg-white/20 backdrop-blur-md text-rose-300 border border-rose-300/30 p-3 sm:px-4 sm:py-2.5 rounded-full shadow-xl transition-all duration-300 flex items-center gap-2 group">
+    <i id="musicIcon" class="fas fa-music text-base animate-bounce"></i>
+    <span id="musicText" class="text-xs sm:text-sm font-semibold tracking-wide hidden sm:inline">Play Romantic Music</span>
+  </button>
+
+
+  <!-- MAIN WRAPPER CONTAINER -->
+  <main class="relative z-10 w-full max-w-4xl mx-auto my-auto py-4">
+
+    <!-- ================================================================= -->
+    <!-- 1. ENTRANCE GATEWAY SCREEN (#screen-intro)                        -->
+    <!-- ================================================================= -->
+    <section id="screen-intro" class="glass-box rounded-3xl p-6 sm:p-12 text-center relative overflow-hidden my-auto max-w-2xl mx-auto">
+      <div class="absolute -top-20 -left-20 w-40 h-40 bg-pink-500/20 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl"></div>
+
+      <!-- Animated Floating Heart Icon -->
+      <div class="relative mb-6 inline-block">
+        <div class="w-28 h-28 sm:w-32 sm:h-32 bg-gradient-to-tr from-rose-500 to-pink-400 rounded-full flex items-center justify-center shadow-2xl mx-auto glow-heart cursor-pointer transform hover:scale-105 transition" onclick="unlockSurprise()">
+          <i class="fas fa-heart text-5xl sm:text-6xl text-white"></i>
+        </div>
+        <span class="absolute -bottom-2 inset-x-0 bg-pink-900/80 text-pink-200 text-[10px] font-semibold tracking-widest uppercase px-3 py-0.5 rounded-full backdrop-blur-md w-max mx-auto border border-pink-400/30">
+          Click To Open 💌
+        </span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl font-script text-pink-300 drop-shadow-md mb-3 leading-snug">
+        A Surprise For My Queen...
+      </h1>
+      <p class="text-slate-300 text-sm sm:text-base font-light max-w-md mx-auto leading-relaxed mb-8">
+        Zindagi ke is safar mein aapka aana mere liye kisi khubsurat khwaab jaisa hai. Happy Birthday meri jaan! Aaiye, apne pyar aur un haseen yaadon ke safar par chalte hain jo hamesha mere dil ke sabse kareeb rahengi... ❤️
+      </p>
+
+      <button onclick="unlockSurprise()" class="px-8 py-4 bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white font-bold rounded-full shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-3 mx-auto text-base sm:text-lg">
+        <span>Tap to Unlock My Heart ❤️</span>
+        <i class="fas fa-sparkles text-amber-300"></i>
+      </button>
+    </section>
+
+
+    <!-- ================================================================= -->
+    <!-- 2. INTERACTIVE STORY MODE (#screen-story)                         -->
+    <!-- ================================================================= -->
+    <section id="screen-story" class="hidden glass-box rounded-3xl p-4 sm:p-8 relative overflow-hidden">
+      
+      <!-- Progress Bar & Counter -->
+      <div class="flex items-center justify-between mb-4 px-2">
+        <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold text-rose-300">
+          <i class="fas fa-heart text-rose-500 animate-pulse"></i>
+          <span id="counterText">Memory 1 of 14</span>
+        </div>
+        
+        <!-- Bar track -->
+        <div class="w-36 sm:w-48 bg-white/10 h-2.5 rounded-full overflow-hidden border border-white/20">
+          <div id="progressBar" class="bg-gradient-to-r from-rose-400 to-pink-500 h-full w-[7.14%] transition-all duration-500 rounded-full"></div>
+        </div>
+      </div>
+
+      <!-- Slide Card Content Container (GSAP targets this) -->
+      <div id="storyCardInner" class="space-y-5">
+        
+        <!-- PERFECT IMAGE ALIGNMENT FRAME CONTAINER -->
+        <!-- Fixes all portrait/landscape cropping issues with blurred ambient background layer -->
+        <div class="relative w-full h-[380px] sm:h-[480px] rounded-2xl overflow-hidden border border-white/20 bg-slate-950 flex items-center justify-center shadow-2xl">
+          
+          <!-- Layer 1: Blurred Ambient Backdrop (Fills frame without empty edges) -->
+          <img id="storyBlurBg" src="1.jpg" alt="Ambient Blur" class="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-125 transition-all duration-700 pointer-events-none">
+          
+          <!-- Layer 2: Actual Uncropped Photo (Maintains native ratio perfectly) -->
+          <img id="storyImg" src="1.jpg" alt="Memory Photo" class="relative z-10 max-h-full max-w-full object-contain rounded-xl drop-shadow-2xl transition-all duration-700">
+          
+          <!-- Tag Pill -->
+          <div class="absolute top-3 right-3 z-20 bg-black/60 backdrop-blur-md border border-white/20 text-rose-200 text-xs px-3.5 py-1.5 rounded-full font-medium tracking-wide">
+            <i class="fas fa-sparkles text-amber-300 mr-1.5"></i>
+            <span id="badgeText">✨ Aapki Saadgi</span>
+          </div>
+        </div>
+
+        <!-- Quote & Caption Card -->
+        <div class="bg-white/10 backdrop-blur-md p-5 sm:p-6 rounded-2xl border border-white/15 shadow-inner">
+          <h3 id="storyTitle" class="text-xl sm:text-2xl font-cursive text-pink-300 mb-2">
+            The Killer Glance
+          </h3>
+          <p id="storyQuote" class="text-slate-200 text-sm sm:text-base leading-relaxed font-light italic">
+            "Aapki ek jhalak hi kafi hai mere din ko sabse khubsurat banane ke liye. Is traditional dress me aapki saadgi aur style pe har baar naya marta hoon! ❤️"
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Story Navigation Controls -->
+      <div class="flex items-center justify-between gap-3 mt-6 pt-2">
+        <button id="prevBtn" onclick="prevSlide()" class="px-5 py-3 bg-white/10 hover:bg-white/20 text-slate-200 font-medium rounded-xl border border-white/10 transition flex items-center gap-2 text-xs sm:text-sm">
+          <i class="fas fa-arrow-left"></i>
+          <span>Previous Memory</span>
+        </button>
+
+        <button id="nextBtn" onclick="nextSlide()" class="px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold rounded-xl shadow-lg shadow-pink-500/25 hover:scale-105 active:scale-95 transition duration-300 flex items-center gap-2 text-xs sm:text-sm">
+          <span id="nextBtnText">Next Memory</span>
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- ================================================================= -->
+    <!-- 3. GRAND FINAL ENDING & MEMORY WALL (#screen-final)               -->
+    <!-- ================================================================= -->
+    <section id="screen-final" class="hidden space-y-8">
+      
+      <!-- Birthday Wish Hero Header -->
+      <div class="glass-box rounded-3xl p-6 sm:p-10 text-center relative overflow-hidden">
+        <div class="inline-block px-4 py-1.5 bg-rose-500/20 text-rose-300 border border-rose-400/30 rounded-full text-xs font-semibold tracking-widest uppercase mb-4 animate-pulse">
+          🎉 Today Is Your Royal Day 🎉
+        </div>
+        
+        <h1 class="text-4xl sm:text-6xl font-script text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-rose-300 to-purple-300 drop-shadow-md mb-3">
+          Happy Birthday, My Entire World! 🎂❤️
+        </h1>
+        
+        <p class="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-light mb-6">
+          Thank you for filling my life with color, laughter, and endless warmth. Here is our complete gallery of love!
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-3">
+          <button onclick="triggerConfetti()" class="px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold rounded-full shadow-lg shadow-pink-500/30 hover:scale-105 active:scale-95 transition text-xs sm:text-sm flex items-center gap-2">
+            <i class="fas fa-gift"></i> Blow Candles & Confetti 🕯️
+          </button>
+          
+          <button onclick="openLoveModal()" class="px-6 py-3 bg-white/10 hover:bg-white/20 text-rose-200 border border-rose-300/30 font-semibold rounded-full backdrop-blur-md transition text-xs sm:text-sm flex items-center gap-2">
+            <i class="fas fa-envelope-open-text text-pink-400"></i> Read Forever Letter 💌
+          </button>
+        </div>
+      </div>
+
+      <!-- GRAND RESPONSIVE MEMORY WALL (ALL 14 PHOTOS) -->
+      <div class="glass-box rounded-3xl p-5 sm:p-8">
+        <div class="text-center mb-6">
+          <h2 class="text-2xl sm:text-3xl font-cursive text-pink-300">
+            📸 Our Lifetime Memory Wall
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1">Every picture holds a thousand unsaid emotions...</p>
+        </div>
+
+        <!-- Responsive Grid Wall (14 Items) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          
+          <!-- Photos 1 to 14 -->
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="1.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">The Elegance ❤️</p>
+          </div>
+          
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="2.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Blooming Rose 🌸</p>
+          </div>
+          
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="3.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Pure Masoomiyat ✨</p>
+          </div>
+          
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="4.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Warmth & Togetherness 💑</p>
+          </div>
+          
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="5.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Jhumka & Eyes 😍</p>
+          </div>
+          
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="6.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Hand in Hand 🌿</p>
+          </div>
+          
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="7.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Night Glam ✨</p>
+          </div>
+          
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="8.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Soulful Eyes 🥺</p>
+          </div>
+          
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="9.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Natural Glow 🌻</p>
+          </div>
+          
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="10.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Soulmates Forever ♾️💖</p>
+          </div>
+
+          <!-- Nayi 4 Photos -->
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="11.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Pyar Ka Ehsaas 💋</p>
+          </div>
+
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="12.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Sacred Embrace 🔒</p>
+          </div>
+
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl">
+            <div class="w-full h-56 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="13.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-sm font-semibold mt-2">Dil Ki Dhun 🎶</p>
+          </div>
+
+          <div class="polaroid-card glass-light p-2.5 rounded-2xl sm:col-span-2 md:col-span-3 max-w-sm mx-auto w-full">
+            <div class="w-full h-64 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center"><img src="14.jpg" class="w-full h-full object-cover"></div>
+            <p class="font-cursive text-slate-800 text-center text-base font-bold mt-2">Haq Se Thamba Haath 🤝❤️</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Restart Journey CTA -->
+      <div class="text-center py-4">
+        <button onclick="restartStory()" class="px-6 py-3 bg-white/10 hover:bg-white/20 text-slate-300 font-semibold rounded-full border border-white/20 transition backdrop-blur-md text-xs sm:text-sm">
+          <i class="fas fa-redo mr-2"></i> Replay Journey From Slide 1
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- SECRET LOVE LETTER MODAL -->
+  <div id="loveModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-lg opacity-0 pointer-events-none transition-all duration-300">
+    <div class="glass-box max-w-lg w-full rounded-3xl p-6 sm:p-8 text-white relative shadow-2xl border border-pink-300/30 transform scale-90 transition-transform duration-300" id="modalBox">
+      
+      <button onclick="closeLoveModal()" class="absolute top-4 right-4 w-9 h-9 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <div class="text-center mb-4">
+        <div class="w-14 h-14 bg-rose-500/20 text-rose-300 rounded-full flex items-center justify-center text-2xl mx-auto mb-2 border border-rose-400/30">
+          💌
+        </div>
+        <h3 class="text-2xl font-script text-pink-300">My Secret Love Letter To You</h3>
+      </div>
+
+      <div class="space-y-3 text-xs sm:text-sm text-slate-200 leading-relaxed font-light max-h-[55vh] overflow-y-auto pr-2">
+        <p>Meri jaan,</p>
+        <p>
+          Happy Birthday my queen! Aaj ke din bas itna kehna chahta hu ki aap meri zindagi ka sabse khubsurat hissa ho.
+        </p>
+        <p>
+          Aapki muskaan, aapki masoomiyat, aapka gussa aur fir turant maan jana — mujhe aapki har adaa se behadh pyar hai. I promise to stand by you in every thick and thin, to hold your hand through every season of life.
+        </p>
+        <p>
+          Ye chota sa webpage aapke liye ek surprise hai, par mera pyar isse hazar guna zyada bada hai. Aap jaisi ho, mere liye ekdam perfect ho. I love you so much!
+        </p>
+        <p class="text-right font-cursive text-lg text-pink-300 pt-2">
+          Forever & Always Yours, <br>❤️
+        </p>
+      </div>
+
+      <div class="mt-5 pt-3 border-t border-white/10 text-center">
+        <button onclick="closeLoveModal(); triggerConfetti();" class="w-full py-3 bg-gradient-to-r from-rose-500 to-pink-500 font-bold rounded-xl text-xs sm:text-sm shadow-lg">
+          Send A Big Tight Hug 🫂❤️
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ================================================================= -->
+  <!-- JAVASCRIPT & GSAP LOGIC                                           -->
+  <!-- ================================================================= -->
+  <script>
+    // 14 Detailed Photos & Customized Romantic Captions
+    const storyData = [
+      {
+        img: "1.jpg",
+        tag: "✨ Aapki Saadgi",
+        title: "The Killer Glance",
+        quote: "Aapki ek jhalak hi kafi hai mere din ko sabse khubsurat banane ke liye. Is traditional dress me aapki saadgi aur style pe har baar naya marta hoon! ❤️"
+      },
+      {
+        img: "2.jpg",
+        tag: "🌸 Blooming Beauty",
+        title: "Gulaab Se Bhi Haseen",
+        quote: "Haath me pakde ye phool bhi aapki khoobsurti ke aage feeke lagte hain. Aapki hansi mere poore jahan me bahar le aati hai! 🌹"
+      },
+      {
+        img: "3.jpg",
+        tag: "✨ Pure Masoomiyat",
+        title: "Mera Sabse Pyara Sukoon",
+        quote: "Is masoom chehre aur shant baithne ke andaaz me jo sukoon hai, wo mujhe duniya ke kisi kone me nahi milta. You are my safe place! 💖"
+      },
+      {
+        img: "4.jpg",
+        tag: "💑 Heartbeat Sync",
+        title: "Cuddles & Warmth",
+        quote: "Aapko yaad hai pichhle birthday ka wo khubsurat pal jab aap mere itne kareeb thi? Wo sukoon ka ehsaas aaj bhi meri rooh mein zinda hai. Aaj chahe humare beech me meelon ki doori hai, par dil se aap aaj bhi meri dhadkano ke utni hi kareeb hain. Faasle chahe jitne hon, mera pyar aaj bhi wahi hai, balki har guzarate din ke sath aur bhi gehra ho gaya hai! 💞"
+      },
+      {
+        img: "5.jpg",
+        tag: "😍 Drop-Dead Gorgeous",
+        title: "Jhumka, Bindi & Those Eyes",
+        quote: "Kaan me jhumka, maathe pe bindi aur ye jheel si gehri aankhein... Aapki is ada par main apni poori zindagi vaar sakta hoon! ✨"
+      },
+      {
+        img: "6.jpg",
+        tag: "🌿 Humsafar Forever",
+        title: "Walking Hand in Hand",
+        quote: "Har mausam aur har raah khubsurat lagti hai jab mera haath aapke haath me hota hai. Saath aise hi hamesha chalna hai! 👫"
+      },
+      {
+        img: "7.jpg",
+        tag: "✨ Night Glam",
+        title: "Stunning Star",
+        quote: "Is kaale libaas mein aapki ye adaa aur zulfon ko sanwarne ka andaaz... sach kahun toh mall ki roshni bhi aapke noor ke aage pheeki lag rahi hai. Aap sach mein kisi haseen khwaab jaisi hain! ✨🖤"
+      },
+      {
+        img: "8.jpg",
+        tag: "🥺 Soul Connection",
+        title: "Mesmerizing Soul",
+        quote: "Thodi si roshni aur aapki ye gehri masoom aankhein... Is chehre ko main ghanton tak bina thake dekh sakta hoon. You own my soul! ❤️"
+      },
+      {
+        img: "9.jpg",
+        tag: "🌻 Natural Radiance",
+        title: "Zulfon Me Phool",
+        quote: "Zulfon me laga ye phool aur aapki ye serene side profile... Natural beauty ki sabse khoobsurat misaal ho aap! 🌸"
+      },
+      {
+        img: "10.jpg",
+        tag: "♾️ Soulmates Forever",
+        title: "My Safest Hug",
+        quote: "Aapko seene se laga kar rakhna hi meri life ka sabse bada reward hai. A bond that is blessed to last forever and beyond! I love you! ❤️"
+      },
+      {
+        img: "11.jpg",
+        tag: "💋 Pyar Ka Ehsaas",
+        title: "The Sweetest Kiss",
+        quote: "Aapke in hothon ka wo pyara sa ehsaas aur mujhe seene se lagane ka ye andaaz... us ek pal me meri saari thakan aur pareshani gayab ho jati hai. Aapka ye be-inteha pyar hi meri zindagi ka sabse aakhri aur sabse pyara thikana hai. 💖"
+      },
+      {
+        img: "12.jpg",
+        tag: "🔒 Sacred Embrace",
+        title: "Always Protected",
+        quote: "Aapko sine se laga kar aisa lagta hai jaise duniya ki saari khushi mujhe mil gayi ho... Aapka yeh roohani saath hi mera sabse bada guroor hai! 🌹"
+      },
+      {
+        img: "13.jpg",
+        tag: "🎶 Dil Ki Dhun",
+        title: "Melody Of Life",
+        quote: "Guitar ke taaron se bhi pyari dhun aapke bolne me hai... Aapki maujoodgi hi meri zindagi ka sabse khoobsurat sangeet hai! 🎸"
+      },
+      {
+        img: "14.jpg",
+        tag: "🤝 Haq Se Thamba Haath",
+        title: "Forever Mine",
+        quote: "Jis haq aur bharose se aapne mera haath thama hai, ye sirf ek sparsh nahi, balki hamari umar bhar ki dosti aur pyar ka wada hai. Aage aane wale har safar, har mushkil aur har khushi mein, main ek mazboot dhaal ban kar aapke sath khada rahunga. Zindagi ke kisi bhi mod par aap khud ko akela nahi payengi. Jab tak meri saansein hain, ye haath aise hi aapke haq mein thama rahega. Aap hi mera kal, aaj aur hamesha ka sukoon hain! 🤝💍❤️"
+      }
+    ];
+
+    let currentIndex = 0;
+    let isPlaying = false;
+    const bgMusic = document.getElementById('bgMusic');
+
+    // Canvas Floating Particles Background
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class FloatingHeart {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + Math.random() * 50;
+        this.size = Math.random() * 12 + 6;
+        this.speedY = Math.random() * 1.2 + 0.5;
+        this.opacity = Math.random() * 0.5 + 0.2;
+      }
+      update() {
+        this.y -= this.speedY;
+        if (this.y < -20) this.reset();
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.fillStyle = `rgba(244, 114, 182, ${this.opacity})`;
+        ctx.beginPath();
+        const d = this.size;
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(-d / 2, -d / 2, -d, d / 3, 0, d);
+        ctx.bezierCurveTo(d, d / 3, d / 2, -d / 2, 0, 0);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 35; i++) particles.push(new FloatingHeart());
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // Sound Toggle Logic
+    function toggleAudio(forcePlay = false) {
+      const icon = document.getElementById('musicIcon');
+      const text = document.getElementById('musicText');
+
+      if (!isPlaying || forcePlay) {
+        bgMusic.play().then(() => {
+          isPlaying = true;
+          icon.className = "fas fa-pause text-base";
+          text.innerText = "Pause Music";
+        }).catch(e => console.log("Audio block:", e));
+      } else {
+        bgMusic.pause();
+        isPlaying = false;
+        icon.className = "fas fa-music text-base animate-bounce";
+        text.innerText = "Play Romantic Music";
+      }
+    }
+
+    // Confetti Effect Trigger
+    function triggerConfetti() {
+      confetti({
+        particleCount: 90,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#f472b6', '#e11d48', '#ffffff', '#fbbf24']
+      });
+    }
+
+    // Unlock Gateway -> Move to Story Mode
+    function unlockSurprise() {
+      toggleAudio(true);
+      triggerConfetti();
+
+      gsap.to('#screen-intro', {
+        opacity: 0,
+        scale: 0.9,
+        duration: 0.6,
+        ease: "power2.inOut",
+        onComplete: () => {
+          document.getElementById('screen-intro').classList.add('hidden');
+          const storyScreen = document.getElementById('screen-story');
+          storyScreen.classList.remove('hidden');
+          
+          gsap.fromTo(storyScreen, 
+            { opacity: 0, scale: 0.95 }, 
+            { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }
+          );
+
+          loadSlide(0, 1);
+        }
+      });
+    }
+
+    // Load Slide with GSAP Transition
+    function loadSlide(index, direction = 1) {
+      const data = storyData[index];
+      const innerCard = document.getElementById('storyCardInner');
+
+      gsap.to(innerCard, {
+        opacity: 0,
+        x: direction * -40,
+        duration: 0.25,
+        ease: "power2.in",
+        onComplete: () => {
+          // Update Images & Content
+          document.getElementById('storyImg').src = data.img;
+          document.getElementById('storyBlurBg').src = data.img;
+          document.getElementById('badgeText').innerText = data.tag;
+          document.getElementById('storyTitle').innerText = data.title;
+          document.getElementById('storyQuote').innerText = data.quote;
+
+          // Counter & Progress
+          document.getElementById('counterText').innerText = `Memory ${index + 1} of ${storyData.length}`;
+          document.getElementById('progressBar').style.width = `${((index + 1) / storyData.length) * 100}%`;
+
+          // Prev button visibility
+          const prevBtn = document.getElementById('prevBtn');
+          if (index === 0) {
+            prevBtn.style.opacity = '0.4';
+            prevBtn.style.pointerEvents = 'none';
+          } else {
+            prevBtn.style.opacity = '1';
+            prevBtn.style.pointerEvents = 'auto';
+          }
+
+          // Next button text
+          const nextBtnText = document.getElementById('nextBtnText');
+          if (index === storyData.length - 1) {
+            nextBtnText.innerText = "See All Memories 🎁";
+          } else {
+            nextBtnText.innerText = "Next Memory";
+          }
+
+          // GSAP Animate In
+          gsap.fromTo(innerCard,
+            { opacity: 0, x: direction * 40 },
+            { opacity: 1, x: 0, duration: 0.35, ease: "power2.out" }
+          );
+        }
+      });
+    }
+
+    function nextSlide() {
+      if (currentIndex < storyData.length - 1) {
+        currentIndex++;
+        loadSlide(currentIndex, 1);
+      } else {
+        // Transition to Final Screen
+        gsap.to('#screen-story', {
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.5,
+          onComplete: () => {
+            document.getElementById('screen-story').classList.add('hidden');
+            const finalScreen = document.getElementById('screen-final');
+            finalScreen.classList.remove('hidden');
+            
+            gsap.fromTo(finalScreen,
+              { opacity: 0, y: 30 },
+              { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+            );
+
+            triggerConfetti();
+          }
+        });
+      }
+    }
+
+    function prevSlide() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        loadSlide(currentIndex, -1);
+      }
+    }
+
+    function restartStory() {
+      currentIndex = 0;
+      document.getElementById('screen-final').classList.add('hidden');
+      const storyScreen = document.getElementById('screen-story');
+      storyScreen.classList.remove('hidden');
+      loadSlide(0, 1);
+    }
+
+    // Modal Controls
+    function openLoveModal() {
+      const modal = document.getElementById('loveModal');
+      const box = document.getElementById('modalBox');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      box.classList.remove('scale-90');
+      box.classList.add('scale-100');
+    }
+
+    function closeLoveModal() {
+      const modal = document.getElementById('loveModal');
+      const box = document.getElementById('modalBox');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      box.classList.remove('scale-100');
+      box.classList.add('scale-90');
+    }
+  </script>
+</body>
+</html>
